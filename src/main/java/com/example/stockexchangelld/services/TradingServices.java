@@ -1,6 +1,7 @@
 package com.example.stockexchangelld.services;
 
 import com.example.stockexchangelld.data.IOrderBook;
+import com.example.stockexchangelld.dtos.OrderRequest;
 import com.example.stockexchangelld.models.Order;
 import com.example.stockexchangelld.models.OrderStatus;
 import com.example.stockexchangelld.models.OrderType;
@@ -12,6 +13,7 @@ import org.springframework.stereotype.Service;
 
 import java.time.LocalDateTime;
 import java.util.List;
+import java.util.UUID;
 import java.util.concurrent.CompletableFuture;
 import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
@@ -24,8 +26,18 @@ public class TradingServices {
     private final IOrderBook orderBook;
     private final OrderMatchingStrategy orderMatchingStrategy;
     private final ExecutorService executorService = Executors.newFixedThreadPool(10);
-    private final TradeService tradeService;
-    public Order placeOrder(Order order) {
+    private final TradeService tradeService;  //violet Dependency inversion principle
+
+    public Order placeOrder(OrderRequest orderRequest) {
+        Order order=Order.builder()
+                .userId(orderRequest.getUserId())
+                .orderType(orderRequest.getOrderType())
+                .stockSymbol(orderRequest.getStockSymbol())
+                .quantity(orderRequest.getQuantity())
+                .price(orderRequest.getPrice())
+                .build();
+
+
         //  TODO:validation
 
         order.setOrderAcceptedTimeStamp(LocalDateTime.now());
@@ -65,6 +77,10 @@ public class TradingServices {
 //            }
             log.info("Order matched successfully");
         }
+    }
+
+    public List<Order> getOrderBook(String symbol) {
+        return orderBook.getOrders(symbol);
     }
 
 }
