@@ -25,8 +25,8 @@ public class Trade {
     @NotBlank(message="Seller order ID is required")
     private String sellerOrderId;
 
-    @NotBlank(message="Stock ID is required")
-    private String stockId;
+    @NotBlank(message="Stock symbol is required")
+    private String stockSymbol;
 
     @NotNull(message="Quantity is required")
     private int quantity;
