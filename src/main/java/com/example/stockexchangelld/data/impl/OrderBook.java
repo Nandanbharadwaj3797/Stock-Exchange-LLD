@@ -2,7 +2,9 @@ package com.example.stockexchangelld.data.impl;
 
 import com.example.stockexchangelld.data.IOrderBook;
 import com.example.stockexchangelld.models.Order;
+import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.stereotype.Component;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -13,6 +15,8 @@ import java.util.concurrent.locks.ReadWriteLock;
 import java.util.concurrent.locks.ReentrantReadWriteLock;
 
 @Slf4j
+@Component
+@RequiredArgsConstructor
 public class OrderBook implements IOrderBook {
 
     private final ConcurrentHashMap<String, List<Order>>orderBook = new ConcurrentHashMap<>();
